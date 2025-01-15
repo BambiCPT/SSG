@@ -1,11 +1,13 @@
 from htmlnode import HTMLnode, LeafNode, ParentNode
+from enum import Enum
 
-text_type_text = "text"
-text_type_bold = "bold"
-text_type_italic = "italic"
-text_type_code = "code"
-text_type_link = "link"
-text_type_image = "image"
+class TextType(Enum):
+    text_type_text = "text"
+    text_type_bold = "bold"
+    text_type_italic = "italic"
+    text_type_code = "code"
+    text_type_link = "link"
+    text_type_image = "image"
 
 class TextNode:
     def __init__(self, text, text_type, url=None):
@@ -22,20 +24,20 @@ class TextNode:
     def __repr__(self):
         return f'TextNode({self.text}, {self.text_type}, {self.url})'
 
-    def text_node_to_html_node(text_node): #thought about doing the text_types in a dictionary somehow but might just come back to it at some point for now good enuf
-        if text_node.text_type == text_type_text:
+def text_node_to_html_node(text_node): #thought about doing the text_types in a dictionary somehow but might just come back to it at some point for now good enuf
+    if text_node.text_type == TextType.text_type_text:
             return LeafNode(data=text_node.text)
-        elif text_node.text_type == text_type_bold:
+    elif text_node.text_type == TextType.text_type_bold:
             return LeafNode(tag='b', data=text_node.text)
-        elif text_node.text_type == text_type_italic:
+    elif text_node.text_type == TextType.text_type_italic:
             return LeafNode(tag='i', data=text_node.text)
-        elif text_node.text_type == text_type_code:
+    elif text_node.text_type == TextType.text_type_code:
             return LeafNode(tag='code', data=text_node.text)
-        elif text_node.text_type == text_type_link:
+    elif text_node.text_type == TextType.text_type_link:
             return LeafNode(tag='a', props={'href': text_node.url}, data=text_node.text)
-        elif text_node.text_type == text_type_image:
+    elif text_node.text_type == TextType.text_type_image:
             return LeafNode(tag='img', data='', props = {'src': text_node.url, 'alt': text_node.text})
-        else:
-            raise Exception('Invalid text type')
+    else:
+            raise ValueError(f'Invalid text type: {text_node.text_type}')
 
         
